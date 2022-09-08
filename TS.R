@@ -144,9 +144,10 @@ adf.test(bestAIC$residuals) #stationary
 jarque.bera.test(bestAIC$residuals)# non normality
 tsdiag(bestAIC)
 ##The Box-Pierce test indicates that we have to accept the null hypotesis of no correlation and the
-##Augmented Dickey Fuller test proves that the residuals are stationary (which is not surprising,
-                                                                       since we had a stationary process).
-######S-ARIMA models##
+##Augmented Dickey Fuller test proves that the residuals are stationary (which is not surprising, since we had a stationary process).
+
+######S-ARIMA models####
+
 plot(as.ts(return))
 
 
