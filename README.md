@@ -64,8 +64,8 @@ pacf(dat.TS, lag.max=NULL, plot=TRUE, na.action=na.fail)
 
 adf.test(dat.TS)# non stationary
 ```
-#####  Unit-Root identification and Returns descriptive analysis####
-
+Unit-Root identification and Returns descriptive analysis
+```
 logdata <- log(dat.TS)
 plot.ts(logdata)
 adf.test(logdata) # non stationary
@@ -75,9 +75,10 @@ plot(as.ts(return))
 acf(return, lag.max = NULL, type = "correlation", plot = TRUE, na.action = na.pass,
     demean = TRUE)
 pacf(return, lag.max=NULL, plot=TRUE, na.action=na.pass)
+```
+Formal tests
 
-#####Formal tests###
-
+```
 adf.test(return) #stationary
 pp.test(return)
 par(mfrow=c(3,1))
@@ -86,7 +87,9 @@ plot.ts(logdata)
 plot.ts(return)
 par(mfrow=c(1,1))
 durbinWatsonTest(lm(return~1), max.lag = 4)
-dwtest(lm(return~1), alternative="two.sided")## p.value is  equal to 0.055 we can accept the null, so there is absence of serial
+dwtest(lm(return~1), alternative="two.sided")
+```
+## p.value is  equal to 0.055 we can accept the null, so there is absence of serial
 #autocorrelation.
 
 
