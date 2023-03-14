@@ -12,21 +12,20 @@
 OBJECTIVE OF THE ANALYSIS
 
 
-1.Give a general overview of the data, initially without any filters and then by considering the returns;
-2. Linear model estimation: estimate of ARIMA models and some diagnostic to evaluate the
+- Give a general overview of the data, initially without any filters and then by considering the returns;
+- Linear model estimation: estimate of ARIMA models and some diagnostic to evaluate the
 model;
-3. Non-linear model estimation: and estimate the best SETAR model and the best LSTAR
+- Non-linear model estimation: and estimate the best SETAR model and the best LSTAR
 model for the time series;
-4.account for the residual heteroskedasticity and for kurtosis or skewness;
-5.estimate the best (G)ARCH model and do some analysis on the residuals;
-6.predict some observations in the future.
+- Account for the residual heteroskedasticity and for kurtosis or skewness;
+- Estimate the best (G)ARCH model and do some analysis on the residuals;
+- Predict some observations in the future.
 
 First of all, we have to load the necessary libraries.
 
 
 ```
 install.packages("quantmod")
-Error in contrib.url(repos, "source"): trying to use CRAN without setting a mirror
 library(quantmod)
 library(forecast)
 library(moments)
