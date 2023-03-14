@@ -89,24 +89,22 @@ par(mfrow=c(1,1))
 durbinWatsonTest(lm(return~1), max.lag = 4)
 dwtest(lm(return~1), alternative="two.sided")
 ```
-## p.value is  equal to 0.055 we can accept the null, so there is absence of serial
-#autocorrelation.
+As we can notice the p.value is  equal to 0.055 so we can accept the null hypothesis,so there is absence of serial autocorrelation.
 
-
-
-######Verify the pattern of the time series of the returns#####
+Verify the pattern of the time series of the returns:
+```
 Box.test(dat.TS)
-Box.test(return)#Given the following results, in both cases, this test suggest that the null hypothesis should be
- ##rejected, so the values are showing dependence on each other.
-
-
+Box.test(return)
+```
+Given the following results, in both cases, this test suggest that the null hypothesis should be rejected, so the values are showing dependence on each other.
+```
 hist((return-mean(return))/sd(return),nclass=20,freq=F)
 lines(seq(-5,5,0.01), dnorm(seq(-5,5,0.01)))
 jarque.bera.test(return)
-shapiro.test(return)#the p.value is very low so we need to reject the null hypothesis, so we
-#arrive to the conclusion that there is not a normal distribution.The same result is also confirmed
-#by Shapiro-Wilks test moreover, this result is also clear by seeing the plo
-
+shapiro.test(return)
+```
+The p.value is very low so we need to reject the null hypothesis, so we arrive to the conclusion that there is not a normal distribution.The same result is also confirmed by Shapiro-Wilks test moreover, this result is also clear by seeing the plo
+```
 qqnorm(return)
 qqline(return)
 
@@ -114,57 +112,66 @@ n<-length(return)
 mean(return)# is very small
 skewness(return)
 kurtosis(return)-3
-## kurtosis is equal to 8.07 that is greater then 3 and this indicates the presence of leptokurtosis (as we have
-#already intuited from the histogram)
-#####Lag plot####
+```
+In this case the kurtosis is equal to 8.07 that is greater then 3 and this indicates the presence of leptokurtosis (as we have already intuited from the histogram).
+
+**Lag plot***
+
 lag.plot(return)
 
-####ARIMA models estimation####
-
-
+ARIMA models estimation
+```
 auto.arima(return)
 bestAIC<-auto.arima(return, max.p=3, max.q=3, ic = "aic", stepwise=F, allowmean=FALSE, allowdrift = FALSE)
 bestAIC
 bestBIC<-auto.arima(return, max.p=3, max.q=3, ic = "bic", stepwise=F, allowmean=FALSE, allowdrift = FALSE)
 bestBIC
-### we model we obtain is  ARIMA(1,0,0), therefore an AR(1).
-#####Residuals diagnosis###
+```
+We model we obtain is  ARIMA(1,0,0), therefore an AR(1).
+
+Residuals diagnosis
+```
 plot(bestAIC$res)
 hist(bestAIC$res, freq=F)
 lines(seq(-2,2,0.01), dnorm(seq(-2,2,0.01), mean(bestAIC$res), sd(bestAIC$res)))
 acf(bestAIC$res)
 pacf(bestAIC$res)
-
-######Let's see more details on the histogram plot###
-
+```
+Let's see more details on the histogram plot:
+```
 hist(bestAIC$res, freq=F, nclass=30)
-#A normal distribution
+```
+A normal distribution
+```
 lines(seq(-2,2,0.01), dnorm(seq(-2,2,0.01), mean(bestAIC$res), sd(bestAIC$res)))
 
 qqnorm(bestAIC$res)
 qqline(bestAIC$res)
 kurtosis(bestAIC$res)
 skewness(bestAIC$res)
-##As we can see from the results, we have still leptokurtosis distribution.
+```
+As we can see from the results, we have still leptokurtosis distribution.
 
-####Formal tests###
+Formal tests
 
-
+```
 Box.test(bestAIC$residuals)#no serial correlation
 adf.test(bestAIC$residuals) #stationary
 jarque.bera.test(bestAIC$residuals)# non normality
 tsdiag(bestAIC)
-##The Box-Pierce test indicates that we have to accept the null hypotesis of no correlation and the
-##Augmented Dickey Fuller test proves that the residuals are stationary (which is not surprising, since we had a stationary process).
+```
+The Box-Pierce test indicates that we have to accept the null hypotesis of no correlation and the Augmented Dickey Fuller test proves that the residuals are stationary (which is not surprising, since we had a stationary process).
 
-######S-ARIMA models####
+S-ARIMA models
 
+```
 plot(as.ts(return))
 
+```
+ Non-linear models: threshold models:
 
-##### Non-linear models: threshold models
-
-######SETAR models####
+SETAR models
+```
 selectSETAR(return, d=1, m=3, mL=2, mH=2, thSteps=10, thDelay=0:2)
 selectSETAR(return, d=1, m=5, mL=5, mH=5, thSteps=10, thDelay=0:2)
 modSETAR <- setar(return, d=1, m=2, mL=1, mH=1, thDelay=1)
@@ -176,17 +183,16 @@ jarque.bera.test(modSETAR$resid) # non normality
 adf.test(modSETAR$resid) #stationary
 e <- residuals(modSETAR)
 plot(e)
-## we can see that we have no serial correlation, stationary, and the
-##residuals are not normally distributed
+```
+We can see from the result that we have no serial correlation, stationary, and the residuals are not normally distributed
 
-####check for independency between estimated values and the residuals of the
-##model.
-
+Now let's check for independency between estimated values and the residuals of the model.
+```
 rend.hat <- fitted(modSETAR)# the estimated value
 plot(rend.hat, e)
 cor.test(rend.hat, e, use="complete")
-
-######LSTAR models######
+```
+LSTAR models
 
 modLSTAR <- lstar(return, m=3, d=1, mL=1, mH=1, thDelay=1)
 
