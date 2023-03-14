@@ -115,7 +115,7 @@ kurtosis(return)-3
 ```
 In this case the kurtosis is equal to 8.07 that is greater then 3 and this indicates the presence of leptokurtosis (as we have already intuited from the histogram).
 
-**Lag plot***
+**Lag plot**
 
 lag.plot(return)
 
@@ -193,57 +193,63 @@ plot(rend.hat, e)
 cor.test(rend.hat, e, use="complete")
 ```
 LSTAR models
-
+```
 modLSTAR <- lstar(return, m=3, d=1, mL=1, mH=1, thDelay=1)
 
 summary(modLSTAR)
+```
+Choice of the model
 
-######Choice of the model#####
+Now we have to choose between two different models, in particular between an ARIMA(1,0,0),therefore an AR(1)
 
-#####Now we have to choose between two different models:
-#an ARIMA(1,0,0),therefore an AR(1)
-## a SETAR model
-
+SETAR model
+```
 plot(bestAIC$residuals)
 plot.ts(modSETAR$residuals)
-####Since the two models bring to the same results, we can choose the simplest one, therefore an
-###ARIMA(1,0,0)##
+```
+Since the two models bring to the same results, we can choose the simplest one, therefore an ARIMA(1,0,0)
 
-#######Conditional heteroscedasticity models: GARCH models###
+**Conditional heteroscedasticity models: GARCH models**
+```
 bptest(return[-1]~ return[-length(return)])
 bptest(lm(bestAIC$res[-1]~bestAIC$res[-length(bestAIC$res)]))
 kurtosis(bestAIC$residuals)
 mod01<-garch(bestAIC$res, order=c(0,1), trace=T)
 
 summary(mod01)
-
-### more complicated model ###
+```
+More complicated models:
+```
 mod02<-garch(bestAIC$res, order=c(0,2), trace=F)
 summary(mod02)
 mod03<-garch(bestAIC$res, order=c(0,3), trace=F)
 summary(mod03)
 mod04<-garch(bestAIC$res, order=c(0,4), trace=F)
 summary(mod04)
+```
+First of all, we consider AIC:
 
-
-#####First of all, we consider AIC###
-
+```
 AIC(mod01)
 AIC(mod02)
 AIC(mod03)
 AIC(mod04)# the best
-####And then we can consider BIC###
-
+```
+And then we can consider BIC:
+```
 AIC(mod01, k = log(mod01$n.used))
 
 AIC(mod02, k = log(mod01$n.used))
 
 AIC(mod03, k = log(mod01$n.used))
 AIC(mod04, k = log(mod01$n.used))
-## the best model is the last model  considering AIC and BIC criteria 
+```
+The best model is the last model  considering AIC and BIC criteria:
+```
 plot(mod04)
-#At this point, we can also consider GARCH models and try to understand if they are better then
-#the simple ARCH
+```
+At this point, we can also consider GARCH models and try to understand if they are better then the simple ARCH:
+```
 mod11<-garch(bestAIC$res, order=c(1,1), trace=T)
 summary(mod11)
 
@@ -262,11 +268,12 @@ qqnorm(mod01$resid)
 qqline(mod01$resid)kurtosis(bestAIC$resid)
 
 kurtosis(mod01$resid[3:199])
-#### see the distribution of the residuals
-
+```
+See the distribution of the residuals:
+```
 hist((mod01$resid[3:199]-mean(mod01$resid[3:199]))/sd(mod01$resid[3:199]),nclass=20,freq=F)
 lines(seq(-5,5,0.01), dnorm(seq(-5,5,0.01)))
-
+```
 Finally, after our brief analyses we can arrive to some conclusions. We have analyzed a time series, first of all by considering some transformations of the data in order to make it stationary, we have solved this issue with the so-called returns. After this the following steps was to try to use a linear model in order to analyze our dataset. The best ARIMA model estimate for our dataset was an ARIMA (1,0,0) therefore an AR(1). After the estimation of the best ARIMA model we also considered the possibility of using nonlinear models in order to treat our data, but at the end after some analysis, we chose to use the linear one. Then, we could have stopped at that point, since the residuals of the ARIMA model presented a desirable behavior (stationarity, and independence). 
 
 However, in order to obtain better results, observing that there were still problems of leptokurtosis in the residuals of the model, we tried to apply a model for conditional heteroscedasticity, and then estimated the best model. The final residuals appear to be stationary, independent, gaussian distributed and we also reduced the leptokurtosis, reaching a result almost equal to the theoretical desirable one. At the end by by using the AIC criteria we can conclude that the best model is the GARCH one. The last step in our analysis was to do a prediciton su our model, but making a prediction su Arch model do not bring to good results for our dataset
