@@ -18,7 +18,7 @@
 ###First of all, we have to load the necessary libraries.
 
 
-
+```
 install.packages("quantmod")
 Error in contrib.url(repos, "source"): trying to use CRAN without setting a mirror
 library(quantmod)
@@ -34,7 +34,7 @@ getSymbols("^N225", source="yahoo")
 N225 -> TS6
 names(TS6) <- c("Open","High","Low","Close","Volume","Adjusted")
 dat.TS<-TS6$Adjusted
-
+```
 ### Simple imputation library ###
 install.packages("imputeTS")
 Error in contrib.url(repos, "source"): trying to use CRAN without setting a mirror
