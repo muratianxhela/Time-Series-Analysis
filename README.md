@@ -1,6 +1,6 @@
-# Time-Series-Analysis
+**Time-Series-Analysis**
 
-In this project I’m going to analyses a given time series, that is N225 (short name for Japan’s Nikkei 225 stock average), one of the most respected index of Japanese stocks. In particular we will:   
+**In this project I’m going to analyses a given time series, that is N225 (short name for Japan’s Nikkei 225 stock average), one of the most respected index of Japanese stocks. In particular we will:**   
 
 Give a general overview of the data, initially without any filters and then by considering the returns; 
 Linear model estimation: estimate of ARIMA models and some diagnostic to evaluate the model;  
