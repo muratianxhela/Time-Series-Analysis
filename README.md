@@ -115,11 +115,11 @@ kurtosis(return)-3
 ```
 In this case the kurtosis is equal to 8.07 that is greater then 3 and this indicates the presence of leptokurtosis (as we have already intuited from the histogram).
 
-**Lag plot**
+>Lag plot
 
 lag.plot(return)
 
-ARIMA models estimation
+>ARIMA models estimation
 ```
 auto.arima(return)
 bestAIC<-auto.arima(return, max.p=3, max.q=3, ic = "aic", stepwise=F, allowmean=FALSE, allowdrift = FALSE)
