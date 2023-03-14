@@ -9,8 +9,6 @@
 - Estimate the best (G)ARCH model and do some analysis on the residuals;  
 - Predict some observations in the future. 
 
-Empirical Analysis of a Time Series
-
 OBJECTIVE OF THE ANALYSIS
 
 
@@ -54,18 +52,18 @@ We find out that there are 24 missing values in our dataset that may infer our p
 na_interpolation(dat.TS)-> dat.TS
 sum(is.na(dat.TS))
 ```
-######## Descriptive Analysis#####
-#graphical representation of the time
-#series behaviour and the analysis of the autocorrelation function and of the partial autocorrelation
-#function.
+> Descriptive Analysis
 
+At this poin we can do a graphical representation of the time series behaviour and the analysis of the autocorrelation function and of the partial autocorrelation
+function.
+```
 plot.ts(dat.TS)
 acf(dat.TS, lag.max = NULL, type = "correlation", plot = TRUE, na.action = na.fail,
     demean = TRUE)
 pacf(dat.TS, lag.max=NULL, plot=TRUE, na.action=na.fail)
 
 adf.test(dat.TS)# non stationary
-
+```
 #####  Unit-Root identification and Returns descriptive analysis####
 
 logdata <- log(dat.TS)
